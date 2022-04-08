@@ -1,0 +1,28 @@
+digraph astgraph {
+  node [shape=circle, fontsize=12, fontname="Courier", height=.1];
+  ranksep=.3;
+  edge [arrowsize=.5]
+  node1 [label="married"]
+  node2 [label="not married"]
+  node4 [label="married"]
+  node1 -> node2 [label= "no"]
+  node1 -> node4 [label= "yes"]
+  node3 [label="no borrowing"]
+  node2 -> node3 
+  node4 [label="income<96"]
+  node5 [label="not income<96"]
+  node7 [label="income<96"]
+  node4 -> node5 [label= "no"]
+  node4 -> node7 [label= "yes"]
+  node6 [label="no borrowing"]
+  node5 -> node6 
+  node7 [label="house"]
+  node8 [label="not house"]
+  node10 [label="house"]
+  node7 -> node8 [label= "no"]
+  node7 -> node10 [label= "yes"]
+  node9 [label="no borrowing"]
+  node8 -> node9 
+ node11 [label="borrowing"]
+ node10 -> node11 [label= "yes"]
+}

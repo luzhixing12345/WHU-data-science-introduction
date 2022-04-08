@@ -33,6 +33,8 @@ def gini_index(data,label):
     '''
     gini_index = 0
     for i in range(len(data)):
+        if len(data[i]) == 0:
+            continue
         sub_gini_index = 0
         cnt_true = 0
         cnt_false = 0
@@ -41,7 +43,7 @@ def gini_index(data,label):
                 cnt_true += 1
             else:
                 cnt_false += 1
-        # print(cnt_true,cnt_false)
+        #print(cnt_true,cnt_false)
         sub_gini_index = 1 - (cnt_true / len(data[i])) ** 2 - (cnt_false / len(data[i])) ** 2
         gini_index += (len(data[i]) / len(label)) * sub_gini_index
     #print(gini_index)
@@ -94,15 +96,14 @@ def house_index(args,data,label,id=0):
 
 def married_index(args,data,label,id=1):
     
-    result = [[] for _ in range(3)]
+    result = [[] for _ in range(2)]
     
     for i in range(len(data)):
-        if data[i][id] == "单身":
+        
+        if data[i][id] == "已婚":
             result[0].append(i)
-        elif data[i][id] == "已婚":
-            result[1].append(i)
         else:
-            result[2].append(i)
+            result[1].append(i)
             
     if args.gini:
         return gini_index(result,label)
@@ -121,7 +122,7 @@ def income_index(args,data,label,id=2):
     min_index = 1
     finial_income = 0
     
-    for income in range(min_income+1,max_income+1,5):
+    for income in range(min_income,max_income+1):
         result = [[] for _ in range(2)]
 
         for i in range(len(data)):
@@ -133,14 +134,15 @@ def income_index(args,data,label,id=2):
         if args.gini:
             if gini_index(result,label) < min_index:
                 min_index = gini_index(result,label)
+                #print(min_index)
                 finial_income = income
         elif args.entropy:
             if entropy_index(result,label) < min_index:
                 min_index = entropy_index(result,label)
                 finial_income = income
-    print(finial_income)
-    print(min_index)
-    return min_index
+    # print(finial_income)
+    # print(min_index)
+    return [finial_income,min_index]
     
 
 def main(args):
@@ -164,10 +166,18 @@ def main(args):
     
     for id,key in enumerate(tags.keys()):
         indexes[key] = tags[key](args,data,label,id)
-    print(indexes)
+    #print(indexes)
             
     if args.draw:
-        draw_tree(data)
+        if args.gini:
+            draw_tree(data,indexes,'gini')
+        elif args.entropy:
+            draw_tree(data,indexes,'entropy')
+        else:
+            raise Exception('Please choose one of the following: gini or entropy, check README.md for more information')
+        print('Draw tree successfully')
+
+    print('Done')
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
