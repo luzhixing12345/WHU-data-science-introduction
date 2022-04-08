@@ -9,20 +9,23 @@
 
 import argparse
 import math
+from draw import draw_tree
 
 def load_data(file_path = 'data.txt'):
     '''
     *@description: load data from file
     *@param: file_path
-    *@return: data
+    *@return: data and label
     '''
     data = []
+    label = []
     with open(file_path, 'r',encoding='utf-8') as f:
         for line in f:
-            data.append(line.strip().split(' '))
-    return data
+            data.append(line.strip().split(' ')[1:-1])
+            label.append(line.strip().split(' ')[-1])
+    return data, label
 
-def gini_index(data):
+def gini_index(data,label):
     '''
     *@description: calculate gini index
     *@param: data
@@ -30,10 +33,21 @@ def gini_index(data):
     '''
     gini_index = 0
     for i in range(len(data)):
-        gini_index += (len(data[i]) / len(data)) * (1 - (len(data[i]) / len(data[i])))
+        sub_gini_index = 0
+        cnt_true = 0
+        cnt_false = 0
+        for j in data[i]:
+            if label[j]=='是':
+                cnt_true += 1
+            else:
+                cnt_false += 1
+        # print(cnt_true,cnt_false)
+        sub_gini_index = 1 - (cnt_true / len(data[i])) ** 2 - (cnt_false / len(data[i])) ** 2
+        gini_index += (len(data[i]) / len(label)) * sub_gini_index
+    #print(gini_index)
     return gini_index
 
-def entropy_index(data):
+def entropy_index(data,label):
     '''
     *@description: calculate entropy index
     *@param: data
@@ -41,14 +55,93 @@ def entropy_index(data):
     '''
     entropy_index = 0
     for i in range(len(data)):
-        entropy_index += (len(data[i]) / len(data)) * (math.log2(len(data[i]) / len(data[i])))
+        if len(data[i]) == 0:
+            continue
+        sub_entropy_index = 0
+        cnt_true = 0
+        cnt_false = 0
+        for j in data[i]:
+            if label[j]=='是':
+                cnt_true += 1
+            else:
+                cnt_false += 1
+        #print(cnt_true,cnt_false)
+        if cnt_false != 0 and cnt_true != 0:
+            sub_entropy_index = -(cnt_true / len(data[i])) * math.log2(cnt_true / len(data[i])) - (cnt_false / len(data[i])) * math.log2(cnt_false / len(data[i]))
+        elif cnt_false == 0:
+            sub_entropy_index = -(cnt_true / len(data[i])) * math.log2(cnt_true / len(data[i]))
+        elif cnt_true == 0:
+            sub_entropy_index = -(cnt_false / len(data[i])) * math.log2(cnt_false / len(data[i]))
+        entropy_index += (len(data[i]) / len(label)) * sub_entropy_index
+    #print(entropy_index)
     return entropy_index
 
-def gini():
-    pass
 
-def entropy():
-    pass
+def house_index(args,data,label,id=0):
+    
+    result = [[] for _ in range(2)]
+    
+    for i in range(len(data)):
+        if data[i][id] == "否":
+            result[0].append(i)
+        else:
+            result[1].append(i)
+    #print(result)
+    if args.gini:
+        return gini_index(result,label)
+    elif args.entropy:
+        return entropy_index(result,label)
+
+def married_index(args,data,label,id=1):
+    
+    result = [[] for _ in range(3)]
+    
+    for i in range(len(data)):
+        if data[i][id] == "单身":
+            result[0].append(i)
+        elif data[i][id] == "已婚":
+            result[1].append(i)
+        else:
+            result[2].append(i)
+            
+    if args.gini:
+        return gini_index(result,label)
+    elif args.entropy:
+        return entropy_index(result,label)
+
+def income_index(args,data,label,id=2):
+        
+    incomings = []
+    
+    for i in range(len(data)):
+        incomings.append(int(data[i][id][:-1]))
+    min_income = min(incomings)
+    max_income = max(incomings)
+    
+    min_index = 1
+    finial_income = 0
+    
+    for income in range(min_income+1,max_income+1,5):
+        result = [[] for _ in range(2)]
+
+        for i in range(len(data)):
+            if int(data[i][id][:-1]) < income:
+                result[0].append(i)
+            else:
+                result[1].append(i)
+        #print(result)
+        if args.gini:
+            if gini_index(result,label) < min_index:
+                min_index = gini_index(result,label)
+                finial_income = income
+        elif args.entropy:
+            if entropy_index(result,label) < min_index:
+                min_index = entropy_index(result,label)
+                finial_income = income
+    print(finial_income)
+    print(min_index)
+    return min_index
+    
 
 def main(args):
     '''
@@ -56,19 +149,25 @@ def main(args):
     *@param: args
     *@return: None
     '''
-    data = load_data(args.file)
-    
-    if args.gini:
-        gini()
-
-    elif args.entropy:
-        entropy()
-        
-    else :
+    if not args.gini and not args.entropy:
         print('Please choose one of the following: gini or entropy, check README.md for more information')
-        
+        return
+    
+    data,label  = load_data(args.file)
+    # print(data,label)
+    tags = {
+        'house':house_index,
+        'married':married_index,
+        'income':income_index
+    }
+    indexes = {}
+    
+    for id,key in enumerate(tags.keys()):
+        indexes[key] = tags[key](args,data,label,id)
+    print(indexes)
+            
     if args.draw:
-        
+        draw_tree(data)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
