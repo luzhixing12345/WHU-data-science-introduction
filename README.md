@@ -13,3 +13,10 @@
 - [GINI和Entropy在决策树中的使用](homework-1/README.md)
 
 ## 第二次作业
+
+
+## Requirments
+
+```shell
+pip install -r requirements.txt
+```

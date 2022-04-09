@@ -8,7 +8,9 @@
 '''
 
 import argparse
-
+from itertools import chain
+import re
+from record import record
 
 def load_dataset(args):
     '''
@@ -21,54 +23,89 @@ def load_dataset(args):
         
     file = open(file_name, 'r')
     for line in file:
-        data.append(line.strip('\n').split(',')[1:])
+        values = re.findall(r'\d+', line)[1:]
+        data.append(values)
     file.close()
 
     return data
 
-def build_frequent_itemsets(data, min_support):
+
+def generate_components(keys,number):
+    '''
+    @description: generate all possible combinations of keys 
+    @param: keys, number
+    @return: components
+    '''
+    components = []
+    dfs([],0,number,keys,components)
+    return components
+
+
+def dfs(component_set,pointer,k,keys,components):
+    '''
+    *@description: use dfs to generate all possible combinations of keys
+    *@param: k: length of combination, keys: all possible keys, components: all possible combinations
+    *@return: None
+    '''
+    if k==0:
+        components.append(tuple(component_set))
+        return
+    if pointer == len(keys):
+        return
+    while pointer < len(keys):
+        component_set.append(keys[pointer])
+        dfs(component_set.copy(),pointer+1,k-1,keys,components)
+        component_set.pop()
+        pointer += 1
+
+def build_frequent_itemsets(keys, data, min_support):
     '''
     *@description: build frequent itemsets
-    *@param: data, min_support
+    *@param: keys, data, min_support
     *@return: frequent_itemsets
     '''
     frequent_itemsets = {}
+    for key in keys:
+        frequent_itemsets[key] = 0
+    
     for i in range(len(data)):
-        for j in range(len(data[i])):
-            if data[i][j] not in frequent_itemsets:
-                frequent_itemsets[data[i][j]] = 1
-            else:
-                frequent_itemsets[data[i][j]] += 1
+        for key in keys:
+            if set(key).issubset(set(data[i])):
+                frequent_itemsets[key] += 1
     frequent_itemsets = {k:v for k,v in frequent_itemsets.items() if v >= min_support}
+    
     return frequent_itemsets
+            
 
-def build_association_rules(frequent_itemsets, min_confidence):
+def build_association_rules(frequent_itemsets, data, min_confidence):
     '''
     *@description: build association rules
-    *@param: frequent_itemsets, min_confidence
+    *@param: frequent_itemsets, data, min_confidence
     *@return: association_rules
     '''
-    association_rules = {}
+    association_rules = []
     for k,v in frequent_itemsets.items():
-        for i in range(len(k)):
-            for j in range(i+1, len(k)):
-                antecedent = k[:i] + k[i+1:]
-                consequent = k[i:j]
-                confidence = v / frequent_itemsets[antecedent]
-                if confidence >= min_confidence:
-                    association_rules[(antecedent, consequent)] = confidence
+        keys = list(k)
+        keys = generate_components(keys,len(keys)-1)
+        for key in keys:
+            cnt = 0
+            for i in range(len(data)):
+                if set(key).issubset(set(data[i])):
+                    cnt += 1
+            confidence = v/cnt
+            if confidence >= min_confidence:
+                association_rules.append([key,k,confidence])
     return association_rules
 
-def print_association_rules(association_rules):
+
+def get_keys_from_frequent_itemsets(frequent_itemsets):
     '''
-    *@description: print association rules
-    *@param: association_rules
-    *@return: None
+    *@description: get all distinct keys from frequent itemsets
+    *@param: frequent_itemsets
+    *@return: keys
     '''
-    for k,v in association_rules.items():
-        print(k,v)
-        
-        
+    return list(set(chain(*[list(i) for i in frequent_itemsets.keys()])))
+
 
 
 def main(args):
@@ -79,6 +116,7 @@ def main(args):
     '''
     data = load_dataset(args)
     n = len(data)
+    print('Number of transactions:', n)
     
     if args.dataset:
         min_support = int(n * args.min_support)
@@ -86,11 +124,27 @@ def main(args):
     else:
         min_support = int(n * 0.5)
         confidence = 0.7
-    
-    frequent_itemsets = build_frequent_itemsets(data, min_support)
-    print(frequent_itemsets)
-    
 
+    # get all keys from data
+    keys = [(i,) for i in set(list(chain(*data)))]
+    # record all frequent itemsets
+    total_frequent_itemsets = {}
+    id = 1
+    
+    frequent_itemsets = build_frequent_itemsets(keys, data, min_support)
+    association_rules = []
+    while True:
+        total_frequent_itemsets[id] = frequent_itemsets
+        id += 1
+        keys = get_keys_from_frequent_itemsets(frequent_itemsets)
+        keys = generate_components(keys,id)
+        frequent_itemsets = build_frequent_itemsets(keys,data, min_support)
+        if frequent_itemsets == {}:
+            break
+        else:
+            association_rules.append(build_association_rules(frequent_itemsets, data, confidence))
+
+    record(total_frequent_itemsets, association_rules,args.dataset)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()

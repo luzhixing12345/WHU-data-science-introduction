@@ -28,7 +28,7 @@ Apriori的算法流程:
   
   统计各个物品出现的次数(连接):
 
-  |itemset|sup(supremum)|
+  |itemset|sup(support)|
   |--:|--:|
   |{1}|2|
   |{2}|3|
@@ -38,7 +38,7 @@ Apriori的算法流程:
 
   `支持度(support)` 用于剪枝阶段,所有 sup 数量小于 `n * support` 的被去掉,大于等于的保留下来作为频繁一项集,其中 n 为 TID 总数量, support 通常是一个百分数, 我们已 `support = 50 %` 为例, 也就是所有 sup 小于 4*0.5=2 的去掉,所以最后得到的频繁一项集为
 
-  |itemset|sup(supremum)|
+  |itemset|sup(support)|
   |--:|--:|
   |{1}|2|
   |{2}|3|
@@ -47,7 +47,7 @@ Apriori的算法流程:
 
 - 接下来计算频繁二项集,因为已经计算出了频繁一项集,只需要组合其中的元素,查找原表中是否同一行中两项都在,统计个数
 
-  |itemset|sup(supremum)|
+  |itemset|sup(support)|
   |--:|--:|
   |{1,2}|1|
   |{1,3}|2|
@@ -58,7 +58,7 @@ Apriori的算法流程:
 
   `1 2 3 5` 排列组合得到六种情况,分别查找,统计数量,然后不足2的去掉
 
-  |itemset|sup(supremum)|
+  |itemset|sup(support)|
   |--:|--:|
   |{1,3}|2|
   |{2,3}|2|
@@ -69,7 +69,7 @@ Apriori的算法流程:
 
 - 同理,排列组合频繁二项集中的元素,查找,剪枝生成频繁三项集
 
-  |itemset|sup(supremum)|
+  |itemset|sup(support)|
   |--:|--:|
   |{2,3,5}|2|
 
@@ -83,7 +83,7 @@ Apriori的算法流程:
 
   - 频繁一项集
 
-    |itemset|sup(supremum)|
+    |itemset|sup(support)|
     |--:|--:|
     |{1}|2|
     |{2}|3|
@@ -92,7 +92,7 @@ Apriori的算法流程:
 
   - 频繁二项集
 
-    |itemset|sup(supremum)|
+    |itemset|sup(support)|
     |--:|--:|
     |{1,3}|2|
     |{2,3}|2|
@@ -101,7 +101,7 @@ Apriori的算法流程:
 
   - 频繁三项集
 
-    |itemset|sup(supremum)|
+    |itemset|sup(support)|
     |--:|--:|
     |{2,3,5}|2|
 
@@ -123,7 +123,7 @@ Apriori的算法流程:
 
   - 频繁二项集
 
-    |itemset|sup(supremum)|
+    |itemset|sup(support)|
     |--:|--:|
     |{1,3}|2|
     |{2,3}|2|
@@ -158,8 +158,24 @@ arguments:
 
   浏览Github又找到了一个[相对正规的项目](https://github.com/asaini/Apriori),但是他的 CSV 文件数据不对齐,有点差,我不太喜欢
 
-  最后选择了另一个[Github项目](https://github.com/timothyasp/apriori-python)使用的数据集,作者给出了自己的实验结果,置信度和支持度可以直接参考,我将其保存在[dataset.csv](dataset.txt),使用参数调用该数据集
+  最后选择了另一个[Github项目](https://github.com/timothyasp/apriori-python)使用的数据集,不过这个一言难尽吧...,数据还是可以用的,我将其保存在[dataset.csv](dataset.txt),使用参数调用该数据集
 
   ```python
   python Apriori.py -d
   ```
+
+- `-s`: min_support
+- `-c`: min_confidence
+
+## Result
+
+- 使用 example.txt 中的数据得到结果保存为 `example.xlsx`(运行程序自动生成)
+
+  ![20220410054421](https://raw.githubusercontent.com/learner-lu/picbed/master/20220410054421.png)
+  ![20220410054438](https://raw.githubusercontent.com/learner-lu/picbed/master/20220410054438.png)
+  ![20220410054450](https://raw.githubusercontent.com/learner-lu/picbed/master/20220410054450.png)
+  ![20220410054504](https://raw.githubusercontent.com/learner-lu/picbed/master/20220410054504.png)
+
+- 使用 dataset.txt 中的数据得到结果保存为 `dataset.xlsx`(运行程序自动生成)
+
+  数据较多截图不便,可直接浏览 dataset.xlsx
