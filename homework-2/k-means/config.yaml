@@ -1,0 +1,2 @@
+DATASETS: ['Balance-scale','Iris','wine']
+K: 3
