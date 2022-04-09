@@ -38,13 +38,11 @@
 
 由此计算出的 Gini 系数为
 
-$Gini_{有房者} = 1-[0+1] = 0$
-
-$Gini_{无房者} = 1-[\frac{3}{7}^2+\frac{4}{7}^2] = \frac{24}{49}$
+![20220409195220](https://raw.githubusercontent.com/learner-lu/picbed/master/20220409195220.png)
 
 可以得到对于有房者的Gini系数为0,我们可以给他一个**不会拖欠贷款**的标签.
 
-$Gini_{加权} = \frac{3}{10}*Gini_{有房者}+\frac{7}{10}*Gini_{无房者} = \frac{12}{35} \approx 0.343$
+![20220409195520](https://raw.githubusercontent.com/learner-lu/picbed/master/20220409195520.png)
 
 而对于婚姻情况是一个多元属性,我们可以采用 已婚/单身/离异 划分三种,也可以划分为 已婚/单身+离异, 对于该数据来说结果的差异不大,计算方法相同.
 
