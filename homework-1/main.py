@@ -140,6 +140,7 @@ def income_index(args,data,label,id=2):
             if entropy_index(result,label) < min_index:
                 min_index = entropy_index(result,label)
                 finial_income = income
+        #print(income,min_index)
     # print(finial_income)
     # print(min_index)
     return [finial_income,min_index]
@@ -166,7 +167,7 @@ def main(args):
     
     for id,key in enumerate(tags.keys()):
         indexes[key] = tags[key](args,data,label,id)
-    #print(indexes)
+    print(indexes)
             
     if args.draw:
         if args.gini:

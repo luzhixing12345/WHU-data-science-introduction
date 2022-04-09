@@ -47,18 +47,18 @@ def build_tree(data,indexes):
             keys[index]+=f'<{income_shreshold}'
         
         dot_body+=f"  node{node_id} [label=\"{keys[index]}\"]\n"
-        dot_body+=f"  node{node_id+1} [label=\"not {keys[index]}\"]\n"
-        dot_body+=f"  node{node_id+3} [label=\"{keys[index]}\"]\n"
+        dot_body+=f"  node{node_id+1} [label=\"{keys[index]}\"]\n"
+        dot_body+=f"  node{node_id+3} [label=\"not {keys[index]}\"]\n"
         dot_body+=f"  node{node_id} -> node{node_id+1} [label= \"no\"]\n"
         dot_body+=f"  node{node_id} -> node{node_id+3} [label= \"yes\"]\n"
-        dot_body+=f"  node{node_id+2} [label=\"no borrowing\"]\n"
+        dot_body+=f"  node{node_id+2} [label=\"borrow\"]\n"
         dot_body+=f'  node{node_id+1} -> node{node_id+2} \n'
     
         node_id+=3
         values.remove(min_value)
         keys.remove(keys[index])
         
-    dot_body+=f' node{node_id+1} [label="borrowing"]\n'
+    dot_body+=f' node{node_id+1} [label="not borrow"]\n'
     dot_body+=f' node{node_id} -> node{node_id+1} [label= "yes"]\n'
     return [dot_body]
 
