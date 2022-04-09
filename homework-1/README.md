@@ -38,7 +38,7 @@
 
 由此计算出的 Gini 系数为
 
-![20220409195220](https://raw.githubusercontent.com/learner-lu/picbed/master/20220409195220.png)
+![20220409195913](https://raw.githubusercontent.com/learner-lu/picbed/master/20220409195913.png)
 
 可以得到对于有房者的Gini系数为0,我们可以给他一个**不会拖欠贷款**的标签.
 
