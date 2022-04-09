@@ -1,15 +1,3 @@
-<head>
-    <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
-    <script type="text/x-mathjax-config">
-        MathJax.Hub.Config({
-            tex2jax: {
-            skipTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
-            inlineMath: [['$','$']]
-            }
-        });
-    </script>
-</head>
-
 # GINI或Entropy在决策树中的使用
 
 > [决策树](https://www.bilibili.com/video/BV1T7411b7DG)
@@ -35,9 +23,9 @@
 
 决策树是用于解决分类问题的一种算法.首先针对决策树的属性选择有两种度量方式,熵和基尼系数,其值越低代表差异越大,区分效果越好
 
-$Entropy = -\sum\limits_{i=0}^nP(i)log_2P(i)$
+[$Entropy = -\sum\limits_{i=0}^nP(i)log_2P(i)$](https://latex.codecogs.com/svg.image?Entropy&space;=&space;-\sum\limits_{i=0}^nP(i)log_2P(i)$)
 
-$Gini = 1-\sum\limits_{i=0}^nP(i)^2$
+[$Gini = 1-\sum\limits_{i=0}^nP(i)^2$](https://latex.codecogs.com/svg.image?Entropy&space;=&space;-\sum\limits_{i=0}^nP(i)log_2P(i)$)
 
 对于是否有房,这是一个二元属性.只有是/否两种类型.我们可以根据是/不是进行划分,划分之后再根据已知的标签(是否拖欠贷款)划分
 
