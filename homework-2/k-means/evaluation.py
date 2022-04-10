@@ -7,8 +7,20 @@
 *@Github: luzhixing12345
 '''
 
-def RandIndex(dataset,groups):
-    return 1
+def RandIndex(k,groups):
+    
+    total_count = 0
+    total_true_label = 0
+    
+    
+    for group in groups:
+        label_count = [0 for _ in range(k)]
+        for data in group:
+            label_count[data[1]] += 1
+            total_count += 1
+        total_true_label+=max(label_count)
+        
+    return total_true_label/total_count * 100
 
-def KappaIndex(dataset,groups):
-    return 1
+
+

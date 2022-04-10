@@ -143,8 +143,7 @@ Apriori的算法流程:
 ## Use
 
 ```python
-cd homework-2
-cd Apriori
+cd homework-2/Apriori
 python Apriori.py
 ```
 

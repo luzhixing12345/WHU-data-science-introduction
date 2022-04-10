@@ -1,2 +1,8 @@
-DATASETS: ['Balance-scale','Iris','wine']
-K: 3
+DATASETS: ['Balance-scale','Iris']
+NAME: "example"
+K: 5
+SIZE: 100
+RANGE:
+  min: 0
+  max: 200
+RADIUS: 50

@@ -1,2 +1,4 @@
 openpyxl
+numpy
+yaml
 matplotlib

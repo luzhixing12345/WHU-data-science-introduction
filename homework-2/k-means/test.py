@@ -1,6 +1,9 @@
 
-import random
+import numpy as np
 
+a = [[np.array([1,2]),3] for _ in range(10)]
 
-for i in range(10):
-    print(random.uniform(1,10))
+a = np.array(a,dtype=object)
+b = np.array(a[:,0],dtype=object)
+b = b[:,[0]]
+print(b.shape)

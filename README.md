@@ -14,6 +14,8 @@
 
 ## 第二次作业
 
+- [Apriori](homework-2/Apriori/README.md)
+- [k-means](homework-2/k-means/README.md)
 
 ## Requirments
 

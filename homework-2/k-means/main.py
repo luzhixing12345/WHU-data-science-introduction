@@ -10,31 +10,33 @@
 
 import argparse
 from config import ReadConfigFile
-from datasets import GetDataset
+from datasets import generator_dataset, get_standard_dataset
 from k_means import K_means
 
 
-def main():
+def main(args):
     '''
     the whole configuration is in `config.yaml`, I use the hyper parameters in the paper by default.
     Or you could manually change it as you like.
     '''
     
-    cfg = ReadConfigFile()      
-    for dataset in cfg['DATASETS']:
-        dataset = GetDataset(dataset)
-        while K_means(dataset,cfg['K'],cfg['THRESHOLD'])=='RESTART':
-            print('restart')
-        
+    cfg = ReadConfigFile(args.config)
     
-
-
-
-
-
-
-
+    if args.random:
+        dataset = generator_dataset(cfg)
+        while K_means(dataset,cfg['K'],show_each_step=True)=='RESTART':
+            print('restart')
+    else:
+        for dataset in cfg['DATASETS']:
+            dataset = get_standard_dataset(dataset)
+            while K_means(dataset,cfg['K'])=='RESTART':
+                print('restart')
+    print('END')
+    
 
 if __name__ == "__main__":
-    
-  main()
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--config', type=str, default='config.yaml', help='config file')
+    parser.add_argument('-r','--random', action='store_true', help='randomly generate the dataset')
+    args = parser.parse_args()
+    main(args)
