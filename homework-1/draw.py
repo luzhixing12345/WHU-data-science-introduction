@@ -9,7 +9,7 @@
 
 import textwrap
 import os
-from turtle import dot
+
 
 def draw_tree(data,indexes, name):
     
@@ -49,8 +49,8 @@ def build_tree(data,indexes):
         dot_body+=f"  node{node_id} [label=\"{keys[index]}\"]\n"
         dot_body+=f"  node{node_id+1} [label=\"{keys[index]}\"]\n"
         dot_body+=f"  node{node_id+3} [label=\"not {keys[index]}\"]\n"
-        dot_body+=f"  node{node_id} -> node{node_id+1} [label= \"no\"]\n"
-        dot_body+=f"  node{node_id} -> node{node_id+3} [label= \"yes\"]\n"
+        dot_body+=f"  node{node_id} -> node{node_id+3} [label= \"no\"]\n"
+        dot_body+=f"  node{node_id} -> node{node_id+1} [label= \"yes\"]\n"
         dot_body+=f"  node{node_id+2} [label=\"borrow\"]\n"
         dot_body+=f'  node{node_id+1} -> node{node_id+2} \n'
     

@@ -10,7 +10,7 @@
 
 ## 第一次作业
 
-- [GINI和Entropy在决策树中的使用](homework-1/README.md)
+- [决策树](homework-1/README.md)
 
 ## 第二次作业
 

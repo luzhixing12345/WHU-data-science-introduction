@@ -25,7 +25,6 @@ def K_means(dataset,k,show_each_step = False):
     new_kernels = UpdateClusterKernels(groups,dimension,dataset)
     #print(new_kernels)
     print('start clustering...')
-    time.sleep(2)
     step = 0
     plt.ion()
     while(new_kernels!=kernels):
