@@ -37,7 +37,7 @@
 
 所以我们在求逆向概率的时候得到了一个神奇的变换:
 
-<img src="https://raw.githubusercontent.com/learner-lu/picbed/master/20220420151446.png" height ="100">
+<img src="https://raw.githubusercontent.com/learner-lu/picbed/master/20220421233954.png" height ="100">
 
 贝叶斯公式就是在计算逆向概率的时候我们遇到一个不好直接求的条件概率,但是如果我们便于计算其反过来的条件概率,变换之后就很容易计算了
 
@@ -51,13 +51,13 @@
 P(垃圾邮件|邮件内容) = P(垃圾邮件和邮件内容) / P(邮件内容) = P(邮件内容|垃圾邮件) * P(垃圾邮件) / P(邮件内容)
 ```
 
-其中最后的P(邮件内容)对结果并没有影响,因为P(正常邮件|邮件内容)的分母也有此项,可以认为是一个常数,也就是说 P(垃圾邮件|邮件内容) 正相关于 P(邮件内容|垃圾邮件) * P(垃圾邮件)
+其中最后的 `P(邮件内容)` 对结果并没有影响,因为P(正常邮件|邮件内容)的分母也有此项,可以认为是一个常数,也就是说 P(垃圾邮件|邮件内容) 正相关于 P(邮件内容|垃圾邮件) * P(垃圾邮件)
 
 所以现在我们将判断一封邮件是否是垃圾邮件这个问题的概率转化为 `P(垃圾邮件) * P(邮件内容|垃圾邮件)`,那么怎么求求这两个的概率呢?
 
 ### P(垃圾邮件)
 
-这一部分的概率称为先验概率,先验概率`prior probability`是指根据以往经验和分析得到的概率,比如P(硬币正面朝上)=0.5,可以认为是根据大数定律,频率可以等于,也就是说我们找足够多的数据样本(10万封邮件或者更多),那么其中垃圾邮件出现的频率(6万次)就可以认为是`P(垃圾邮件) = 6/10 = 0.6`,这一部分的概率是根据一个巨大先验集(训练集)来确定的
+这一部分的概率称为先验概率,先验概率`prior probability`是指根据以往经验和分析得到的概率,比如P(硬币正面朝上)=0.5,可以认为是根据大数定律,频率趋近于概率,也就是说我们找足够多的数据样本(10万封邮件或者更多),那么其中垃圾邮件出现的频率(6万次)就可以认为是`P(垃圾邮件) = 6/10 = 0.6`,这一部分的概率是根据一个巨大先验集(训练集)来确定的
 
 ### P(邮件内容|垃圾邮件)
 
@@ -85,7 +85,7 @@ P(邮件内容|垃圾邮件) = P(A|垃圾邮件) * P(B|垃圾邮件) * P(C|垃�
 
 ## Dataset
 
-在垃圾邮件分类中，比较常见的公共数据集有[Apache SpamAssassin](https://spamassassin.apache.org/old/publiccorpus/) [TREC Spam Corpus](https://trec.nist.gov/data/spam.html)和[CEAS](https://plg.uwaterloo.ca/~gvcormac/ceascorpus/)等.
+在垃圾邮件分类中，比较常见的公共数据集有[Apache SpamAssassin](https://spamassassin.apache.org/old/publiccorpus/)和[TREC Spam Corpus](https://trec.nist.gov/data/spam.html)和[CEAS](https://plg.uwaterloo.ca/~gvcormac/ceascorpus/)等.
 
 不过这些数据集的处理较为复杂,因为原始的邮件数据格式不一致,语言不一致,数据量又太大了,处理起来很慢效果也不是很理想,最后选择用两个教学常用的数据集
 
@@ -112,11 +112,11 @@ P(邮件内容|垃圾邮件) = P(A|垃圾邮件) * P(B|垃圾邮件) * P(C|垃�
 
   ![20220421215207](https://raw.githubusercontent.com/learner-lu/picbed/master/20220421215207.png)
 
-- sougou(part): accuracy: 55.6%
+- sougou(part): accuracy: 77.7%
 
-  ![20220421215621](https://raw.githubusercontent.com/learner-lu/picbed/master/20220421215621.png)
+  ![20220421233702](https://raw.githubusercontent.com/learner-lu/picbed/master/20220421233702.png)
 
-## Concluation
+## Conclusion
 
 素贝叶斯分类的优缺点
 

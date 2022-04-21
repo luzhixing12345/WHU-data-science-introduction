@@ -11,7 +11,7 @@
 stop_word_set = [',','.',':',';','(',')','[',']',
                      '{','}','<','>','/','\\','|','?'
                      ,'!','@','#','$','%','^','&','*',
-                     '~','`','+','=','_','-','\n','\t','\r']
+                     '~','`','+','=','_','-','\n','\t','\r','&nbsp']
 
 # chinese stop word set
 stop_word_dir = 'dataset\\SogouC\\stopwords_cn.txt'
@@ -20,7 +20,7 @@ with open(stop_word_dir,'r',encoding='utf-8',errors='ignore') as f:
 
 def delete_stop_word(word,type='cn'):
     
-    for stop_word in stop_word_set_cn:
+    for stop_word in stop_word_set:
         word = word.replace(stop_word,'')
     for number in ['0','1','2','3','4','5','6','7','8','9']:
         word = word.replace(number,'')
