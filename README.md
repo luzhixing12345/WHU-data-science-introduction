@@ -16,6 +16,7 @@
 
 - [Apriori](homework-2/Apriori/README.md)
 - [k-means](homework-2/k-means/README.md)
+- [naive-bayes](homework-2/Naive-bayes/README.md)
 
 ## Requirments
 
