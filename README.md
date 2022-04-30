@@ -18,6 +18,10 @@
 - [k-means](homework-2/k-means/README.md)
 - [naive-bayes](homework-2/Naive-bayes/README.md)
 
+## 第三次作业
+
+- ROC曲线画图
+
 ## Requirments
 
 ```shell

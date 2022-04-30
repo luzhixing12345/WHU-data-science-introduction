@@ -4,6 +4,8 @@
 >
 > [知乎好文-决策树](https://zhuanlan.zhihu.com/p/30059442)
 >
+> [决策树节点不纯度](https://www.zhihu.com/question/296781126/answer/508112100)
+>
 > 基础数据来自于视频例子,但是作者计算的gini数据错误,house的gini是0.34285,income的全局最优在96k,gini=0.3.
 
 假设我们的数据如下(数据保存在`data.txt`),我们如何构建一个决策树使得对于一个用户可以判断其是否会拖延贷款?
