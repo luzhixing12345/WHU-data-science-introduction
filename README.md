@@ -2,11 +2,9 @@
 
 声明:
 
-- 本仓库构建目的为提供一个开源的可浏览的代码仓库,用于完成本人作业.
-- 本仓库包含且仅包含代码部分,不包含其他部分作业
+- 本仓库构建目的为提供一个开源的可浏览的代码仓库,用于完成本人作业
+- 代码作业的目录如下,纸质作业也已上传,[下载地址](https://github.com/luzhixing12345/data-science-introduction/releases/download/v0.0.2/paper-homework.zip)
 - 采用MIT协议,以供学习交流
-
-本文 Github 地址: https://github.com/luzhixing12345/data-science-introduction
 
 ## 第一次作业
 
